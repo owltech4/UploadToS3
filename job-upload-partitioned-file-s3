@@ -1,0 +1,17 @@
+import boto3
+from datetime import datetime
+
+def upload_to_s3_with_daily_partition(file_name, bucket):
+    # Obter a data atual
+    current_date = datetime.now()
+    date_partition = current_date.strftime('%Y%m%d')  # Formato anomesdia
+
+    # Construir o caminho de objeto com partição diária
+    object_name = f'dados/anomesdia={date_partition}/{file_name}'
+
+    # Fazer o upload
+    s3_client = boto3.client('s3')
+    s3_client.upload_file(file_name, bucket, object_name)
+
+# Exemplo de uso
+upload_to_s3_with_daily_partition('meu_arquivo.csv', 'meu-bucket-s3')
